@@ -48,5 +48,6 @@ public class DemoqaTests {
         $("#city").click();
         $("#city").$(byText("Delhi")).click();
         $("#subjectsInput").setValue("Maths").pressEnter();
+        Configuration.timeout = Long.parseLong("2000");
         $("#submit").click();
     }}
