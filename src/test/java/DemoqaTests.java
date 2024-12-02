@@ -2,25 +2,24 @@ import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 public class DemoqaTests {
     @BeforeAll
     static void beforeAll() {
         Configuration.pageLoadStrategy = "eager";
         Configuration.browserSize= "1920x1080";
+        Configuration.baseUrl = "https://demoqa.com";
     }
 
     @Test
      void successfulSearchTest() {
         // Открыть страницу
-        open("https://demoqa.com/automation-practice-form");
-
+        open("/automation-practice-form");
+        executeJavaScript("$('#fixedban').remove()");
+        executeJavaScript("$('footer').remove()");
         // Заполнить форму
         $("[id=firstName]").setValue("Anastasia");
         $("[id=lastName]").setValue("Lyuleva");
@@ -40,8 +39,7 @@ public class DemoqaTests {
         $("#hobbiesWrapper").$(byText("Sports")).click();
 
         // Загрузить файл
-        File fileUpload = new File("E:\\Загрузки\\Енот.jpg"); // Путь к файлу
-        $("[id=uploadPicture]").uploadFile(fileUpload); // Использование переменной fileUpload
+        $("#uploadPicture").uploadFromClasspath("Енот.jpg"); // Путь к файлу
         $("#currentAddress").setValue("г.Нижний Новгород"); //написание адреса
         //выбор State and City
         $("#state").click();
@@ -49,8 +47,6 @@ public class DemoqaTests {
         $("#city").click();
         $("#city").$(byText("Delhi")).click();
         $("#subjectsInput").setValue("Maths").pressEnter();
-        //Таймаут 4 сек.
-        Configuration.timeout = Long.parseLong("6000");
         //Отправка формы
         $("#submit").click();
 
